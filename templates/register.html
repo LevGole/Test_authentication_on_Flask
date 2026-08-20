@@ -4,19 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
+    <style>
+        /* Позже вынесем в отдельный CSS, пока добавим базовые стили для читаемости */
+        .error { color: red; font-size: 0.9em; }
+        .success { color: green; }
+        .field { margin-bottom: 10px; }
+        label { display: inline-block; width: 150px; }
+    </style>
 </head>
 <body>
     <h1>Регистрация</h1>
+
+    <!-- Вывод flash-сообщений (если есть) -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
     <form method="POST">
-        <label>Имя пользователя:</label>
-        <input type="text" name="username"><br>
-        <label>Email:</label>
-        <input type="email" name="email"><br>
-        <label>Пароль:</label>
-        <input type="password" name="password"><br>
-        <label>Подтверждение пароля:</label>
-        <input type="password" name="password_confirm"><br>
-        <input type="submit" value="Зарегистрироваться">
+        <div class="field">
+            <label>Имя пользователя:</label>
+            <input type="text" name="username" value="{{ username }}" required>
+            {% if errors and errors.username %}
+                <span class="error">{{ errors.username }}</span>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label>Email:</label>
+            <input type="email" name="email" value="{{ email }}" required>
+            {% if errors and errors.email %}
+                <span class="error">{{ errors.email }}</span>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label>Пароль:</label>
+            <input type="password" name="password" required>
+            {% if errors and errors.password %}
+                <span class="error">{{ errors.password }}</span>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label>Подтверждение пароля:</label>
+            <input type="password" name="password_confirm" required>
+            {% if errors and errors.password_confirm %}
+                <span class="error">{{ errors.password_confirm }}</span>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label>Капча: {{ session.get('captcha_question', '') }}</label>
+            <input type="text" name="captcha" placeholder="Введите ответ" required>
+            {% if errors and errors.captcha %}
+                <span class="error">{{ errors.captcha }}</span>
+            {% endif %}
+        </div>
+        <div>
+            <input type="submit" value="Зарегистрироваться">
+        </div>
     </form>
+    <p>Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a></p>
 </body>
 </html>

@@ -17,7 +17,7 @@ def init_db():
     cur.execute(
     '''
     CREATE TABLE IF NOT EXISTS users (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY ,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
@@ -41,6 +41,7 @@ def create_user(username, email, password):
         conn.commit()
         user_id = cur.lastrowid #создание уникального индетификатора
         conn.close()
+        return user_id
 
     except sqlite3.IntegrityError as e: #ошибка целостности данных
         if 'username' in str(e):
@@ -54,7 +55,7 @@ def get_user_by_username(username):
     conn = get_db()
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
-    user = cursor.fetchone()
+    user = cursor.fetchone() #служит для получения одной первой или следующей строки из результата SQL-запроса
     conn.close()
     return user
 
