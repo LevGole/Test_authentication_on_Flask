@@ -19,7 +19,7 @@ init_db()
 
 @app.route('/')
 def hello():
-    return ''
+    return render_template('main.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

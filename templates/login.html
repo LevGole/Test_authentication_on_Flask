@@ -1,29 +1,9 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход</title>
-    <style>
-        .error { color: red; }
-        .danger { color: red; }
-        .field { margin-bottom: 10px; }
-        label { display: inline-block; width: 120px; }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
     <h1>Вход в систему</h1>
-
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <ul>
-        {% for category, message in messages %}
-          <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-
     <form method="POST">
         <div class="field">
             <label>Логин или Email:</label>
@@ -45,5 +25,4 @@
         </div>
     </form>
     <p>Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрироваться</a></p>
-</body>
-</html>
+{% endblock %}

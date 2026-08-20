@@ -1,34 +1,12 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
-    <style>
-        /* Позже вынесем в отдельный CSS, пока добавим базовые стили для читаемости */
-        .error { color: red; font-size: 0.9em; }
-        .success { color: green; }
-        .field { margin-bottom: 10px; }
-        label { display: inline-block; width: 150px; }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
     <h1>Регистрация</h1>
-
-    <!-- Вывод flash-сообщений (если есть) -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <ul>
-        {% for category, message in messages %}
-          <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-
     <form method="POST">
         <div class="field">
-            <label>Имя пользователя:</label>
+            <label style="white-space: nowrap;">Имя пользователя:</label>
             <input type="text" name="username" value="{{ username }}" required>
             {% if errors and errors.username %}
                 <span class="error">{{ errors.username }}</span>
@@ -49,7 +27,7 @@
             {% endif %}
         </div>
         <div class="field">
-            <label>Подтверждение пароля:</label>
+            <label style="white-space: nowrap;">Подтверждение пароля:</label>
             <input type="password" name="password_confirm" required>
             {% if errors and errors.password_confirm %}
                 <span class="error">{{ errors.password_confirm }}</span>
@@ -67,5 +45,4 @@
         </div>
     </form>
     <p>Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a></p>
-</body>
-</html>
+{% endblock %}
