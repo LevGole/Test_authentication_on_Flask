@@ -1,12 +1,22 @@
+import sqlite3
+
 from flask import Flask
 from flask import render_template, request
 from config import Config
-from database import init_db
+from database import init_db, get_db
+from database import create_user
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
 init_db()
+
+try:
+    create_user('testuser', 'test@example.com', '124124124')
+    print("Тестовый пользователь создан")
+except ValueError as e:
+    print(e)
+
 
 @app.route('/')
 def hello():
