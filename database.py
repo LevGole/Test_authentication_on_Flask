@@ -39,7 +39,7 @@ def create_user(username, email, password):
             (username, email, password)
         )
         conn.commit()
-        user_id = cur.lastrowid #создание уникального индетификатора
+        user_id = cur.lastrowid #создан уникального индетификатора
         conn.close()
         return user_id
 
